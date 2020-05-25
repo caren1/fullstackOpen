@@ -9,30 +9,49 @@ const Header = (props) => {
   )
 };
 
+const Part = (props) => {
+  return (
+    <div>
+      <p>
+        Part of the course: {props.part} <br/>
+        Number of exercises: {props.exercises}
+      </p>
+    </div>
+  )
+};
+
 const Content = (props) => {
 
   return (
     <div>
-      <div>
-        <p>
-          Part of the course: {props.parts[0]} <br/>
-          Number of exercises: {props.exercises[0]}
-        </p>
-      </div>
-      <div>
-        <p>
-          Part of the course: {props.parts[1]} <br/>
-          Number of exercises: {props.exercises[1]}
-        </p>
-      </div>
-      <div>
-        <p>
-          Part of the course: {props.parts[2]} <br/>
-          Number of exercises: {props.exercises[2]}
-        </p>
-      </div>
+      <Part part={props.parts[0]} exercises={props.exercises[0]}/>
+      <Part part={props.parts[1]} exercises={props.exercises[1]}/>
+      <Part part={props.parts[2]} exercises={props.exercises[2]}/>
     </div>
   )
+
+  // return (
+  //   <div>
+  //     <div>
+  //       <p>
+  //         Part of the course: {props.parts[0]} <br/>
+  //         Number of exercises: {props.exercises[0]}
+  //       </p>
+  //     </div>
+  //     <div>
+  //       <p>
+  //         Part of the course: {props.parts[1]} <br/>
+  //         Number of exercises: {props.exercises[1]}
+  //       </p>
+  //     </div>
+  //     <div>
+  //       <p>
+  //         Part of the course: {props.parts[2]} <br/>
+  //         Number of exercises: {props.exercises[2]}
+  //       </p>
+  //     </div>
+  //   </div>
+  // )
 };
 
 
