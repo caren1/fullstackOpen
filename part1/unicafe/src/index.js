@@ -34,18 +34,22 @@ const Statistics = ({good, neutral, bad}) => {
     return Math.floor(percentage);
   }
 
-  return(
-  <div>
-    <Statistic text={'good'} count={good} />
-    <Statistic text={'neutral'} count={neutral} />
-    <Statistic text={'bad'} count={bad} />
-    <Statistic text={'all'} count={good + neutral + bad} />
 
-    <Statistic text={'average'} count={countAverage(good, neutral, bad)} />
-    <Statistic text={'positive percentage'} count={countPercentage(good, neutral, bad)} />
-  </div>
-  )
-
+  if(good === 0 && neutral === 0 && bad === 0){
+    return <p>No feedback given yet</p>
+  }else{
+    return(
+      <div>
+        <Statistic text={'good'} count={good} />
+        <Statistic text={'neutral'} count={neutral} />
+        <Statistic text={'bad'} count={bad} />
+        <Statistic text={'all'} count={good + neutral + bad} />
+    
+        <Statistic text={'average'} count={countAverage(good, neutral, bad)} />
+        <Statistic text={'positive percentage'} count={countPercentage(good, neutral, bad)} />
+      </div>
+      )
+  }
 }
   
 const App = () => {
