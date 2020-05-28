@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 const Header = (props) => {
@@ -31,11 +31,6 @@ const Content = (props) => {
 };
 
 const Total = (props) => {
-  
-  // let total = 0;
-  // props.course.parts.forEach(element => {
-  //   total += element.exercises;
-  // });
 
   let total = props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises;
 
