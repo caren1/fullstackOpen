@@ -66,6 +66,7 @@ const App = () => {
       {/* <Statistic text={'neutral'} count={neutral} /> */}
       {/* <Statistic text={'bad'} count={bad} />  */}
       {/* <Statistics counts={good, neutral, bad} /> */}
+      {/* whoops, actually done the next exercise without reading it :) */}
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
