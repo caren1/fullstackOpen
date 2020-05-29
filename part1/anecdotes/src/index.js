@@ -5,18 +5,27 @@ const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>;
 
 const Anecdote = ({text}) => <div><h1>{text}</h1></div>;
 
+const Statistic = ({votes}) => <p>has {votes} votes</p>
+
 const App = ({anecdotes}) => {
 
-  const generateRandomAnecdote = anecdotes => {
-    return Math.floor(Math.random() * (anecdotes.length));
-  }
+  const generateRandomAnecdote = anecdotes => Math.floor(Math.random() * (anecdotes.length));
 
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState({0:0, 1:0, 2:0, 3:0, 4:0, 5:0})
+
+  const increaseVoteNumber = (points, currentAnecdote) => {
+    const pointsCopy = {...points};
+    pointsCopy[currentAnecdote] = pointsCopy[currentAnecdote] + 1;
+    setPoints(pointsCopy);
+  }
 
   return (
     <div>
       <Anecdote text={anecdotes[selected]} />
-      <Button onClick={() => setSelected(generateRandomAnecdote(anecdotes))} text={'next anecodte'} />
+      <Statistic votes={points[selected]} />
+      <Button onClick={() => setSelected(generateRandomAnecdote(anecdotes))} text={'next anecdote'} />
+      <Button onClick={() => increaseVoteNumber(points, selected)} text={'vote'} />
     </div>
   )
 }
