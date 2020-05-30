@@ -3,30 +3,54 @@ import ReactDOM from 'react-dom'
 
 const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>;
 
-const Anecdote = ({text}) => <div><h1>{text}</h1></div>;
+const Anecdote = ({text}) => <h2>"{text}"</h2>;
 
 const Statistic = ({votes}) => <p>has {votes} votes</p>
 
+const Header = ({text}) => <h1>{text}</h1>
+
 const App = ({anecdotes}) => {
+  const [selected, setSelected] = useState(0);
+  const [points, setPoints] = useState(new Array(6).fill(0));
+  const pointsCopy = [...points];
 
-  const generateRandomAnecdote = anecdotes => Math.floor(Math.random() * (anecdotes.length));
+  const generateRandomAnecdote = () => setSelected(Math.floor(Math.random() * (anecdotes.length)));
 
-  const [selected, setSelected] = useState(0)
-  const [points, setPoints] = useState({0:0, 1:0, 2:0, 3:0, 4:0, 5:0})
-
-  const increaseVoteNumber = (points, currentAnecdote) => {
-    const pointsCopy = {...points};
-    pointsCopy[currentAnecdote] = pointsCopy[currentAnecdote] + 1;
+  const increaseVoteNumber = () => {
+    pointsCopy[selected] += 1;
     setPoints(pointsCopy);
   }
 
+  const topAnecdoteVotes = Math.max(...points);
+  const topAnecdote = points.indexOf(topAnecdoteVotes);
+
   return (
-    <div>
-      <Anecdote text={anecdotes[selected]} />
-      <Statistic votes={points[selected]} />
-      <Button onClick={() => setSelected(generateRandomAnecdote(anecdotes))} text={'next anecdote'} />
-      <Button onClick={() => increaseVoteNumber(points, selected)} text={'vote'} />
-    </div>
+      <>
+        {/* which way is better? to separate the each of below to separate components,
+         or just those required and write the rest via JSX without extracting to components */}
+
+        <Header text={'Anecdote of the day:'} />
+        <Anecdote text={anecdotes[selected]} />
+        <Statistic votes={points[selected]} />
+        <Button onClick={generateRandomAnecdote} text={'next anecdote'} />
+        <Button onClick={increaseVoteNumber} text={'vote'} />
+        <hr/>
+        <Header text={'Anecdote with most votes'} />
+        <Anecdote text={anecdotes[topAnecdote]} />
+        <Statistic votes={topAnecdoteVotes} />
+      </>
+
+        /* ???????????? */
+        /* <>
+           <h1>Anecdote of the day:</h1>
+           <h2>{anecdotes[selected]}</h2>
+           <p>{points[selected]}</p>
+           <Button onClick={generateRandomAnecdote} text={'next anecdote'} />
+           <Button onClick={increaseVoteNumber} text={'vote'} />
+           <h1>Anecdote with most votes:</h1>
+           <h2>{anecdotes[topAnecdote]}</h2>
+           <p>{topAnecdoteVotes}</p> 
+           </>*/
   )
 }
 
