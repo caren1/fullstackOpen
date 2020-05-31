@@ -1,7 +1,7 @@
 
 ## Repository of exercises for `fullStackOpen 2020` course. 
 
-## This course serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js. The course also contains a section on GraphQL, a modern alternative to REST APIs.
+ This course serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js. The course also contains a section on GraphQL, a modern alternative to REST APIs.
 
 ![University of Helsinki](https://fullstackopen.com/static/uoh_centre-3689cf9983a2ebc8089c8f078a9c4769.svg)
 ![Houston Inc](https://www.houston-inc.com/static/media/houston_logo.0e373086.svg)
