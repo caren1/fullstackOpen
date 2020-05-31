@@ -5,8 +5,10 @@ const Total = ({ course }) => {
 
     const exercises = parts.map(el => el.exercises);
 
-    const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    let total = exercises.reduce(reducer);
+    // const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    // let total = exercises.reduce(reducer);
+
+    let total = exercises.reduce((accumulator, currentValue) => accumulator + currentValue)
 
     return (
         <div>
