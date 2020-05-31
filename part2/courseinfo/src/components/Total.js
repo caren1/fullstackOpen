@@ -3,10 +3,10 @@ import React from 'react';
 const Total = ({ course }) => {
     const parts = course.parts;
 
-    let total = 0;
-    parts.forEach(element => {
-        total += element.exercises;
-    });
+    const exercises = parts.map(el => el.exercises);
+
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    let total = exercises.reduce(reducer);
 
     return (
         <div>
