@@ -16,8 +16,16 @@ const App = ({ props }) => {
       const personObject = {
           name: newName
       }
-    setPersons(persons.concat(personObject));
-    setNewName('');
+
+      const personNames = persons.map(person => person.name);
+
+      if(!personNames.includes(personObject.name)){
+        setPersons(persons.concat(personObject));
+        setNewName('');
+      } else {
+        alert(`${personObject.name} is already existing in the phone book.`)
+      }
+    
   }
 
   return (
