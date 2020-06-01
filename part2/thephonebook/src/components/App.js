@@ -1,12 +1,27 @@
 import React, { useState } from 'react'
 
 const App = ({ props }) => {
-  const [ persons, setPersons ] = useState([]) 
+
+  const [ persons, setPersons ] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ]) 
+
   const [ newName, setNewName ] = useState('')
   const [ newPhoneNumber, setNewPhoneNumber ] = useState('')
+  const [ showAll, setShowAll ] = useState('')
+
+  let personsToShow = showAll ? persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase())) : persons
+
+  const handleFilterChange = (event) => {
+    // console.log(event.target.value);
+    setShowAll(event.target.value);
+  }
 
   const handleNameChange = (event) => {
-      console.log(event.target.value);
+      // console.log(event.target.value);
       setNewName(event.target.value);
   }
 
@@ -27,14 +42,16 @@ const App = ({ props }) => {
   }
 
   const handlePhoneChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setNewPhoneNumber(event.target.value);
   }
-
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        Filter shown with:<input onChange={handleFilterChange}></input>
+      </div>
       <form onSubmit={handleNewPerson}>
         <div>
           name: <input onChange={handleNameChange} value={newName} />
@@ -49,11 +66,16 @@ const App = ({ props }) => {
       <h2>Numbers</h2>
       <div>
           <ul>
-              {persons.map(person =>
+              {/* {persons.map(person =>
                 <li key={person.name}>
-                     {person.name}, {person.phone}
+                     {person.name}, {person.number}
                 </li>)
-                }
+                } */}
+                {personsToShow.map(person => 
+                  <li key={person.name}>
+                    {person.name}, {person.number}
+                  </li>
+                )}
           </ul>
       </div>
     </div>
