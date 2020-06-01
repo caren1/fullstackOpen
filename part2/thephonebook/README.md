@@ -1,13 +1,4 @@
-
-## Repository of solutions for `fullStackOpen 2020` course exercises.
-
-![University of Helsinki](https://fullstackopen.com/static/uoh_centre-3689cf9983a2ebc8089c8f078a9c4769.svg)
-
-This course serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js. The course also contains a section on GraphQL, a modern alternative to REST APIs.
-
-Partners and affiliates of the course include [Houston Inc](https://www.houston-inc.com/), [Terveystalo](https://www.terveystalo.com/fi/Yritystietoa/Terveystalo-tyontantajana/Digital-Health/), [Elisa](https://elisa.fi/), [K-ryhmä](https://www.kesko.fi/[), [Unity Technologies and Konecranes](https://www.instagram.com/unitytechnologies/?hl=en). See [here](https://www.youtube.com/watch?v=BZexOyQZMMc&list=PLumQiZ25uijis31zaRL7rhzLalSwLqUtm) for guest lectures on course-related topics given by various experts from our partners and affiliates.
-
-## This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
