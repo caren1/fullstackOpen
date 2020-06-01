@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 
+import Filter from './Filter'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
+
 const App = ({ props }) => {
 
   const [ persons, setPersons ] = useState([
@@ -25,17 +29,18 @@ const App = ({ props }) => {
       setNewName(event.target.value);
   }
 
-  const handleNewPerson = (event) => {
+  const addPerson = (event) => {
       event.preventDefault();
       const personObject = {
           name: newName,
-          phone: newPhoneNumber
+          number: newPhoneNumber
       }
 
       const personNames = persons.map(person => person.name);
       if(!personNames.includes(personObject.name)){
         setPersons(persons.concat(personObject));
         setNewName('');
+        setNewPhoneNumber('')
       } else {
         alert(`${personObject.name} is already existing in the phone book.`)
       }
@@ -45,39 +50,26 @@ const App = ({ props }) => {
     // console.log(event.target.value);
     setNewPhoneNumber(event.target.value);
   }
-  
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        Filter shown with:<input onChange={handleFilterChange}></input>
-      </div>
-      <form onSubmit={handleNewPerson}>
-        <div>
-          name: <input onChange={handleNameChange} value={newName} />
-        </div>
-        <div>
-          phone number: <input onChange={handlePhoneChange} value={newPhoneNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>
-          <ul>
-              {/* {persons.map(person =>
-                <li key={person.name}>
-                     {person.name}, {person.number}
-                </li>)
-                } */}
-                {personsToShow.map(person => 
-                  <li key={person.name}>
-                    {person.name}, {person.number}
-                  </li>
-                )}
-          </ul>
-      </div>
+
+      <Filter onChange={handleFilterChange} value={showAll} />
+
+      <h3>Add a new</h3>
+
+      <PersonForm 
+      onSubmit={addPerson}
+      newName={newName}
+      handleNameChange={handleNameChange}
+      newPhoneNumber={newPhoneNumber}
+      handlePhoneChange={handlePhoneChange}
+      />
+
+      <h3>Persons:</h3>
+
+      <Persons persons={personsToShow} />
     </div>
   )
 }
