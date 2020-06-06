@@ -51,9 +51,18 @@ const App = ({ props }) => {
 
       const personNames = persons.map(person => person.name);
       if(!personNames.includes(personObject.name)){
-        setPersons(persons.concat(personObject));
-        setNewName('');
-        setNewPhoneNumber('')
+
+        axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          console.log('successfully added a person to Database.')
+          setNewName('');
+          setNewPhoneNumber('')
+        })
+        .catch(error => {
+          console.log('Something went wrong:' + error);
+        })
       } else {
         alert(`${personObject.name} is already existing in the phone book.`)
       }
