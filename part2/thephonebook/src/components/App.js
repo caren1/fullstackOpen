@@ -24,13 +24,15 @@ const App = ({ props }) => {
   let personsToShow = showAll ? persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase())) : persons
 
   const handleFilterChange = (event) => {
-    // console.log(event.target.value);
     setShowAll(event.target.value);
   }
 
   const handleNameChange = (event) => {
-      // console.log(event.target.value);
       setNewName(event.target.value);
+  }
+
+  const handlePhoneChange = (event) => {
+    setNewPhoneNumber(event.target.value);
   }
 
   const addPerson = (event) => {
@@ -59,27 +61,34 @@ const App = ({ props }) => {
       }
   }
 
-  const handlePhoneChange = (event) => {
-    // console.log(event.target.value);
-    setNewPhoneNumber(event.target.value);
+  const removePerson = (id, name) => {
+    const question = `Do you really want to delete the ${name} from the phonebook?`
+    const decision = window.confirm(question);
+    if(decision) {
+      personService
+      .remove(id)
+    }
   }
+
+  
 
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter onChange={handleFilterChange} value={showAll} />
       <h3>Add a new</h3>
-      
+
       <PersonForm 
       onSubmit={addPerson}
       newName={newName}
       handleNameChange={handleNameChange}
       newPhoneNumber={newPhoneNumber}
       handlePhoneChange={handlePhoneChange}
+      
       />
 
       <h3>Persons:</h3>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} removePerson={removePerson}/>
     </div>
   )
 }
