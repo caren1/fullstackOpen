@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Filter from './Filter'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
+
+import personService from '../services/person'
 
 const App = ({ props }) => {
 
@@ -13,23 +14,13 @@ const App = ({ props }) => {
   const [ showAll, setShowAll ] = useState('')
 
   useEffect(() => {
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data);
+    personService
+    .getAll()
+    .then(persons => {
+      setPersons(persons)
     })
-  },[])
-
-  // const hook = () => {
-  //   axios
-  //   .get('http://localhost:3001/persons')
-  //   .then(response => {
-  //     setPersons(response.data)
-  //   })
-  // }
-  // useEffect(hook, []);
+  })
   
-
   let personsToShow = showAll ? persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase())) : persons
 
   const handleFilterChange = (event) => {
@@ -50,12 +41,12 @@ const App = ({ props }) => {
       }
 
       const personNames = persons.map(person => person.name);
-      if(!personNames.includes(personObject.name)){
 
-        axios
-        .post('http://localhost:3001/persons', personObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      if(!personNames.includes(personObject.name)){
+        personService
+        .create(personObject)
+        .then(newPerson => {
+          setPersons(persons.concat(newPerson))
           console.log('successfully added a person to Database.')
           setNewName('');
           setNewPhoneNumber('')
@@ -76,11 +67,9 @@ const App = ({ props }) => {
   return (
     <div>
       <h2>Phonebook</h2>
-
       <Filter onChange={handleFilterChange} value={showAll} />
-
       <h3>Add a new</h3>
-
+      
       <PersonForm 
       onSubmit={addPerson}
       newName={newName}
@@ -90,7 +79,6 @@ const App = ({ props }) => {
       />
 
       <h3>Persons:</h3>
-
       <Persons persons={personsToShow} />
     </div>
   )
