@@ -40,11 +40,7 @@ const App = ({ props }) => {
 
   const addPerson = (event) => {
       event.preventDefault();
-      const personObject = {
-          name: newName,
-          number: newPhoneNumber
-      }
-
+      const personObject = { name: newName, number: newPhoneNumber}
       const personNames = persons.map(person => person.name);
 
       if(!personNames.includes(personObject.name)){
@@ -55,13 +51,16 @@ const App = ({ props }) => {
           handleMessage(`Successfully added ${newPerson.name}`, 'success')
         })
         .catch(error => {
-          handleMessage(`Something went wrong, ${error}`, 'error')
+          console.log(error);
+          handleMessage(`Could not create: ${error}`, 'error')
         })
+
       } else {
         const decision = window.confirm(`${personObject.name} is already existing in the phone book. Do you want to replace the old number with a new one?`);
         if(decision){
           const personToUpdate = persons.find(person => person.name === personObject.name)
           const changedPerson = {...personToUpdate, number: personObject.number}
+
           personService
           .update(personToUpdate.id, changedPerson)
           .then(returnedPerson => {
@@ -69,7 +68,8 @@ const App = ({ props }) => {
             handleMessage(`Successfully changed the ${returnedPerson.name}'s phone number`, 'success')
           })
           .catch(error => {
-            handleMessage(`Something went wrong, ${error}`, 'error')
+            console.log(error);
+            handleMessage(`Information of ${changedPerson.name} has already been removed from server`, 'error')
           })
         }
       }
@@ -83,8 +83,14 @@ const App = ({ props }) => {
     if(decision) {
       personService
       .remove(id)
-      setPersons(persons.filter(person => person.id !== id))
-      handleMessage(`Successfully deleted ${name}`, 'success') 
+      .then(response => {
+        setPersons(persons.filter(person => person.id !== id))
+        handleMessage(`Successfully deleted ${name}`, 'success') 
+      })
+      .catch(error => {
+        console.log(error);
+        handleMessage(`Information of ${name} has already been removed from server`, 'error')
+      })
     }
   }
 
