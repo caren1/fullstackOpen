@@ -19,7 +19,7 @@ const App = ({ props }) => {
     .then(persons => {
       setPersons(persons)
     })
-  })
+  }, [])
   
   let personsToShow = showAll ? persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase())) : persons
 
@@ -50,15 +50,29 @@ const App = ({ props }) => {
         .then(newPerson => {
           setPersons(persons.concat(newPerson))
           console.log('successfully added a person to Database.')
-          setNewName('');
-          setNewPhoneNumber('')
         })
         .catch(error => {
           console.log('Something went wrong:' + error);
         })
       } else {
-        alert(`${personObject.name} is already existing in the phone book.`)
+        // alert(`${personObject.name} is already existing in the phone book.`)
+        const decision = window.confirm(`${personObject.name} is already existing in the phone book. Do you want to replace the old number with a new one?`);
+        if(decision){
+          const personToUpdate = persons.find(person => person.name === personObject.name)
+          const changedPerson = {...personToUpdate, number: personObject.number}
+          personService
+          .update(personToUpdate.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson))
+            
+          })
+          .catch(error => {
+            console.log('something went wrong', error);
+          })
+        }
       }
+      setNewName('');
+      setNewPhoneNumber('')
   }
 
   const removePerson = (id, name) => {
@@ -67,10 +81,9 @@ const App = ({ props }) => {
     if(decision) {
       personService
       .remove(id)
+      setPersons(persons.filter(person => person.id !== id))
     }
   }
-
-  
 
   return (
     <div>
