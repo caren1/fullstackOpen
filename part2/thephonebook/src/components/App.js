@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
+import Notification from './Notification'
 
 import personService from '../services/person'
 
@@ -12,6 +13,8 @@ const App = ({ props }) => {
   const [ newName, setNewName ] = useState('')
   const [ newPhoneNumber, setNewPhoneNumber ] = useState('')
   const [ showAll, setShowAll ] = useState('')
+  const [ message, setMessage ] = useState('')
+  const [ messageType, setMessageType ] = useState('')
 
   useEffect(() => {
     personService
@@ -49,13 +52,12 @@ const App = ({ props }) => {
         .create(personObject)
         .then(newPerson => {
           setPersons(persons.concat(newPerson))
-          console.log('successfully added a person to Database.')
+          handleMessage(`Successfully added ${newPerson.name}`, 'success')
         })
         .catch(error => {
-          console.log('Something went wrong:' + error);
+          handleMessage(`Something went wrong, ${error}`, 'error')
         })
       } else {
-        // alert(`${personObject.name} is already existing in the phone book.`)
         const decision = window.confirm(`${personObject.name} is already existing in the phone book. Do you want to replace the old number with a new one?`);
         if(decision){
           const personToUpdate = persons.find(person => person.name === personObject.name)
@@ -64,10 +66,10 @@ const App = ({ props }) => {
           .update(personToUpdate.id, changedPerson)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson))
-            
+            handleMessage(`Successfully changed the ${returnedPerson.name}'s phone number`, 'success')
           })
           .catch(error => {
-            console.log('something went wrong', error);
+            handleMessage(`Something went wrong, ${error}`, 'error')
           })
         }
       }
@@ -82,12 +84,24 @@ const App = ({ props }) => {
       personService
       .remove(id)
       setPersons(persons.filter(person => person.id !== id))
+      handleMessage(`Successfully deleted ${name}`, 'success') 
     }
+  }
+
+  const handleMessage = (message, type) => {
+    setMessage(message)
+    setMessageType(type)
+
+    setTimeout(() => {
+      setMessage(null)
+      setMessageType('')
+    }, 5000)
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} type={messageType}/>
       <Filter onChange={handleFilterChange} value={showAll} />
       <h3>Add a new</h3>
 
