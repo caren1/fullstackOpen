@@ -68,9 +68,13 @@ app.post('/api/persons', (request, response) => {
     const id = Math.floor(Math.random() * (100 - persons.length)) + persons.length;
     const body = request.body
 
-    if(!body.name){
+    if(!body.name || !body.number){
         return response.status(404).json({
-            error: 'content of request is missing'
+            error: 'Name or Number in request is missing.'
+        })
+    } else if(persons.find(person => person.name === body.name)){
+        return response.status(404).json({
+            error: 'Provided name is already in use, it must be UNIQUE.'
         })
     }
 
