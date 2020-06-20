@@ -51,8 +51,7 @@ const App = ({ props }) => {
           handleMessage(`Successfully added ${newPerson.name}`, 'success')
         })
         .catch(error => {
-          console.log(error);
-          handleMessage(`Could not create: ${error}`, 'error')
+          handleMessage(error.response.data.error, 'error')
         })
 
       } else {
@@ -69,7 +68,7 @@ const App = ({ props }) => {
           })
           .catch(error => {
             console.log(error);
-            handleMessage(`Information of ${changedPerson.name} has already been removed from server`, 'error')
+            handleMessage(error.response.data.error, 'error')
           })
         }
       }
@@ -89,7 +88,8 @@ const App = ({ props }) => {
       })
       .catch(error => {
         console.log(error);
-        handleMessage(`Information of ${name} has already been removed from server`, 'error')
+        handleMessage(error.response.data.error, 'error')
+
       })
     }
   }
