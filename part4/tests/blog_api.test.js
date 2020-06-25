@@ -33,6 +33,13 @@ describe('get requests tests', () => {
 
     expect(titles).toContain('React is awesome')
   })
+
+  test('is property equal to id, instead of _id', async () => {
+    const response = await api.get('/api/blogs')
+    const ids = response.body.map(blog => blog.id)
+    expect(ids).toBeDefined()
+
+  })
 })
 
 afterAll(() => {
