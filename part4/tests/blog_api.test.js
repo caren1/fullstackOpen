@@ -42,6 +42,28 @@ describe('get requests tests', () => {
   })
 })
 
+describe('post requests tests', () => {
+  test('a valid blog can be added to database', async () => {
+    const newBlog = {
+      title: 'FulstackOpen is the best way to practice all aspects of programming',
+      author: 'Mariusz Pudzianowski',
+      url: 'www.pudzian.com',
+      likes: 44
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    const blogTitles = response.body.map(blog => blog.title)
+
+    expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
+    expect(blogTitles).toContain('FulstackOpen is the best way to practice all aspects of programming')
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

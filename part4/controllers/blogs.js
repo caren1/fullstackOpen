@@ -12,13 +12,24 @@ blogRouter.get('/', async (request, response) => {
   response.json(blogs.map(blog => blog.toJSON()))
 })
 
-blogRouter.post('/', (request, response) => {
-  const blog = new Blog(request.body)
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
+blogRouter.post('/', async (request, response) => {
+  // blog
+  //   .save()
+  //   .then(result => {
+  //     response.status(201).json(result)
+  //   })
+
+  const body = request.body
+
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
+  })
+
+  const savedBlog = await blog.save()
+  response.json(savedBlog.toJSON())
 })
 
 module.exports = blogRouter
