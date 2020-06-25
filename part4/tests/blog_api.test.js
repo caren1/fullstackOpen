@@ -3,6 +3,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
+const blog = require('../models/blog')
 
 const api = supertest(app)
 
@@ -111,6 +112,29 @@ describe('delete requests tests',  () => {
     const titles = blogsAtEnd.map(blog => blog.title)
     expect(titles).not.toContain(blogToDelete.title)
   })
+})
+
+describe('put requests tests', () => {
+  test('updating single blog', async () => {
+    const blogsAtStart = await helper.blogsInDatabase()
+    const blogToUpdate = blogsAtStart[0]
+
+    const newBlog = {
+      title: 'New updated blog title',
+      author: 'Put Tester',
+      url: 'www.putIsWorking.com',
+      likes: 999
+    }
+
+    api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(newBlog)
+
+    const blogsAtEnd = await helper.blogsInDatabase()
+    const titles = blogsAtEnd.map(blog => blog.title)
+
+    expect(titles).toContain('Changed the title')
+  } )
 })
 
 afterAll(() => {
