@@ -4,7 +4,7 @@ mongoose.set('useFindAndModify', false)
 const blogSchema = mongoose.Schema({
   title: { type: String, required: true, minlenght: 5 },
   author: { type: String, required: true, minlenght: 5 },
-  url: String,
+  url: { type: String, required: true },
   likes: Number
 })
 

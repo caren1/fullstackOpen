@@ -62,6 +62,35 @@ describe('post requests tests', () => {
     expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
     expect(blogTitles).toContain('FulstackOpen is the best way to practice all aspects of programming')
   })
+
+  test('has the request likes property', async () => {
+    const newBlog = {
+      title: 'This blog will not have likes',
+      author: 'Lacking Like',
+      url: 'www.nolikes.com'
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    expect(response.body.likes).toBeFalsy()
+  })
+
+  test('blog has title and url missing', async () => {
+    const newBlog = {
+      author: 'Missing TitleAndUrl',
+      likes: 30
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  })
 })
 
 afterAll(() => {
