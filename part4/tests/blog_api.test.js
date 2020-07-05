@@ -3,7 +3,6 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
-const blog = require('../models/blog')
 
 const api = supertest(app)
 
@@ -126,14 +125,14 @@ describe('put requests tests', () => {
       likes: 999
     }
 
-    api
+    await api
       .put(`/api/blogs/${blogToUpdate.id}`)
       .send(newBlog)
 
     const blogsAtEnd = await helper.blogsInDatabase()
+    // console.log(blogsAtEnd)
     const titles = blogsAtEnd.map(blog => blog.title)
-
-    expect(titles).toContain('Changed the title')
+    expect(titles).toContain('New updated blog title')
   } )
 })
 
