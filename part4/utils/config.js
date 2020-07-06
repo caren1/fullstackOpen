@@ -10,4 +10,4 @@ if (process.env.NODE_ENV === 'test'){
 
 let SECRET = process.env.SECRET
 
-module.exports = { PORT, MONGODB_URI }
+module.exports = { PORT, MONGODB_URI, SECRET }
