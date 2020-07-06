@@ -50,7 +50,7 @@ blogRouter.delete('/:id', async (request, response) => {
 
   const blogToBeDeleted = await Blog.findById(request.params.id)
   if(!blogToBeDeleted){
-    return response.status(400).json({ error: 'Invalid blog ID' })
+    return response.status(204)
   }
 
   if(blogToBeDeleted.user.toString() === user.id.toString()){
