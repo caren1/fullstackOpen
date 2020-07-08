@@ -3,18 +3,13 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+  const [ blogs, setBlogs ] = useState([])
+  const [ user, setUser ] = useState(null)
+  const [ message, setMessage ] = useState('')
+  const [ messageType, setMessageType ] = useState('')
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -25,28 +20,36 @@ const App = () => {
     }
   }, [])
 
+  useEffect(() => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    ) 
+  }, [])
+
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
   }
 
   return (
-    <div>
-      <h1>Blogs:</h1>
-      {/* <Notification /> */}
-
-      {user === null ?
-      <LoginForm user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword}/> : 
-      <div>
-        <p>{user.name} logged-in</p>
-        <button type="submit" onClick={handleLogout}>logout</button>
-        <BlogForm blogs={blogs} setBlogs={setBlogs}/>
+    <>
+      <h1>Blogs Application</h1>
+      <Notification message={message} type={messageType}/>
+      {!user && <LoginForm setUser={setUser} setMessage={setMessage} setMessageType={setMessageType}/>}
+      {user && 
+       <div>
+        <p>
+          Greetings, {user.name}.<br/>
+          Anything to add today?
+        </p>
+        <button type="submit" onClick={handleLogout}>Logout</button>
+       <BlogForm blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} setMessageType={setMessageType}/>
+        <hr />
+        <h2>Current blogs:</h2>
         {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-      </div>
-      }
-    </div>
+        <Blog key={blog.id} blog={blog} />)}
+     </div>}
+    </>
   )
 }
 
