@@ -88,7 +88,7 @@ const handleMessage = (message, type) => {
         <hr />
         <h2>Current blogs:</h2>
         {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />)}
+        <Blog key={blog.id} blog={blog}/>)}
      </div>}
     </>
   )
