@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-const Blog = ({ blog, handleLikeUpdate}) => {
+const Blog = ({ blog, handleLikeUpdate, handleDelete, user }) => {
 
   const [ showDetails, setShowDetails ] = useState(false)
 
@@ -12,12 +12,14 @@ const Blog = ({ blog, handleLikeUpdate}) => {
       </ul>
     </div>
   )
-
+  
   return (
     <div className={'blogStyle'}>
       <p>{blog.title} by {blog.author}</p>
+      <button onClick={() => handleDelete(blog)}>delete</button>
       { showDetails ? detailedView : null}
       <button onClick={() => setShowDetails(!showDetails)}> { showDetails ? 'hide' : 'view' } </button>
+      
     </div>
   )
 }

@@ -23,10 +23,13 @@ const App = () => {
     }
   }, [])
 
-  useEffect(async () => {
-    const response = await blogService.getAll()
-    const sortedBlogs = response.sort((a, b) => b.likes - a.likes)
-    setBlogs(sortedBlogs)
+  useEffect(() => {
+    async function fetchBlogs() {
+      const response = await blogService.getAll()
+      const sortedBlogs = response.sort((a, b) => b.likes - a.likes)
+      setBlogs(sortedBlogs)
+    }
+    fetchBlogs()
   }, [])
 
   const handleLogout = () => {
@@ -82,6 +85,18 @@ const handleMessage = (message, type) => {
       }
     }
 
+    const handleDeleteBlog = async blogObject => {
+        if (window.confirm(`Do you really want to remove ${blogObject.title} by ${blogObject.author}?`)) {
+          try {
+          const blogToDelete = await blogService.remove(blogObject)
+          setBlogs(blogs.filter(blog => blog.id !== blogObject.id))
+          handleMessage(`successfully removed ${blogObject.title}`, 'success')
+          }catch (error) {
+            handleMessage(`Could not delete the given blog, ${blogObject.title}`, 'error')
+          }
+        }
+    }
+
   return (
     <>
       <h1>Blogs Application</h1>
@@ -98,7 +113,7 @@ const handleMessage = (message, type) => {
         <hr />
         <h2>Current blogs:</h2>
         {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLikeUpdate={handleLikeUpdate}/>)}
+        <Blog key={blog.id} blog={blog} handleLikeUpdate={handleLikeUpdate} handleDelete={handleDeleteBlog} user={user}/>)}
      </div>}
     </>
   )
