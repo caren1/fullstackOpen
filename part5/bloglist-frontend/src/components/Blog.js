@@ -15,7 +15,7 @@ const Blog = ({ blog, handleLikeUpdate}) => {
 
   return (
     <div className={'blogStyle'}>
-      {blog.title} by {blog.author}
+      <p>{blog.title} by {blog.author}</p>
       { showDetails ? detailedView : null}
       <button onClick={() => setShowDetails(!showDetails)}> { showDetails ? 'hide' : 'view' } </button>
     </div>

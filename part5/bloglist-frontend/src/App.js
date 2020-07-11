@@ -25,7 +25,8 @@ const App = () => {
 
   useEffect(async () => {
     const response = await blogService.getAll()
-    setBlogs(response)
+    const sortedBlogs = response.sort((a, b) => b.likes - a.likes)
+    setBlogs(sortedBlogs)
   }, [])
 
   const handleLogout = () => {
