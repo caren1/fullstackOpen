@@ -23,10 +23,9 @@ const App = () => {
     }
   }, [])
 
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    ) 
+  useEffect(async () => {
+    const response = await blogService.getAll()
+    setBlogs(response)
   }, [])
 
   const handleLogout = () => {
@@ -70,7 +69,17 @@ const handleMessage = (message, type) => {
         handleMessage(`Could not log in, provided invalid credentials`, 'error')
       }
     }
-  
+
+    const handleLikeUpdate = async blogObject => {
+      const patchedBlog = {...blogObject, likes: blogObject.likes + 1 };
+      try {
+        const blogToUpdate = await blogService.update(patchedBlog)
+        setBlogs(blogs.map(blog => blog.id === blogToUpdate.id ? blogToUpdate : blog))
+        handleMessage(`liked ${blogObject.title}`, 'success')
+      }catch (error) {
+        handleMessage(`could not like ${blogObject.title}`, 'error')
+      }
+    }
 
   return (
     <>
@@ -88,7 +97,7 @@ const handleMessage = (message, type) => {
         <hr />
         <h2>Current blogs:</h2>
         {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog}/>)}
+        <Blog key={blog.id} blog={blog} handleLikeUpdate={handleLikeUpdate}/>)}
      </div>}
     </>
   )
