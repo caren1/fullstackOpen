@@ -9,6 +9,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
 const App = () => {
+  
   const [ blogs, setBlogs ] = useState([])
   const [ user, setUser ] = useState(null)
   const [ message, setMessage ] = useState('')
