@@ -17,12 +17,12 @@ const addBlog = (event) => {
 }
 
 return (
-    <div>
+    <div className={'formDiv'}>
     <h1>Add a new blog:</h1>
     <form onSubmit={addBlog}>
-      Title: <input type="text" value={title} onChange={(event) => setTitle(event.target.value)}></input><br />
-      Author: <input type="text" value={author} onChange={(event) => setAuthor(event.target.value)}></input><br />
-      URL: <input type="text" value={url} onChange={(event) => setUrl(event.target.value)}></input><br />
+      Title: <input id='title' type="text" value={title} onChange={(event) => setTitle(event.target.value)}></input><br />
+      Author: <input id='author' type="text" value={author} onChange={(event) => setAuthor(event.target.value)}></input><br />
+      URL: <input id='url' type="text" value={url} onChange={(event) => setUrl(event.target.value)}></input><br />
       <button type="submit">create</button>
     </form>
    </div>

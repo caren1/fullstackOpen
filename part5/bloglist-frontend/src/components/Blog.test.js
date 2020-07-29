@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
+import BlogForm from './BlogForm'
 
 const blog = {
     title: 'Blog especially for testing',
@@ -79,28 +80,65 @@ const blog = {
 //     })
 // })
 
-describe('calling like event handler twice', () => {
+// describe('calling like event handler twice', () => {
 
-    test('hitting that like button twice', () => {
+//     test('hitting that like button twice', () => {
 
-        const mockHandler = jest.fn()
+//         const mockHandler = jest.fn()
 
-        const component = render(
-            <Blog blog={blog} handleLikeUpdate={mockHandler}/>
-        )
+//         const component = render(
+//             <Blog blog={blog} handleLikeUpdate={mockHandler}/>
+//         )
 
-        const button = component.getByText('view')
-        fireEvent.click(button)
+//         const button = component.getByText('view')
+//         fireEvent.click(button)
 
-        const div = component.container.querySelector('.detailedView')
-        expect(div).toBeDefined()
+//         const div = component.container.querySelector('.detailedView')
+//         expect(div).toBeDefined()
 
-        const likeButton = div.querySelector('.likeBtn')
-        fireEvent.click(likeButton)
-        fireEvent.click(likeButton)
+//         const likeButton = div.querySelector('.likeBtn')
+//         fireEvent.click(likeButton)
+//         fireEvent.click(likeButton)
 
-        expect(mockHandler.mock.calls).toHaveLength(2)
+//         expect(mockHandler.mock.calls).toHaveLength(2)
         
+//     })
+// })
+
+describe('form tests', () => {
+    test('BlogForm updates the parent state and calls onSubmit', () => {
+        const createBlog = jest.fn()
+
+        const component = render(<BlogForm createBlog={createBlog}/>)
+        const title = component.container.querySelector('#title')
+        const author = component.container.querySelector('#author')
+        const url = component.container.querySelector('#url')
+
+        const form = component.container.querySelector('form')
+
+        const initialBlog = {
+            title: 'I hope this works',
+            author: 'Wojt',
+            url: 'www.wojt.pl'
+        }
+
+        fireEvent.change(title, {
+            target: { value: 'I hope this works'}
+        })
+
+        fireEvent.change(author, {
+            target: { value: 'Wojt'}
+        })
+
+        fireEvent.change(url, {
+            target: { value: 'www.wojt.pl'}
+        })
+
+        fireEvent.submit(form)
+
+        expect(createBlog.mock.calls).toHaveLength(1)
+        expect(createBlog.mock.calls[0][0]).toEqual(initialBlog)
+
     })
 })
 
