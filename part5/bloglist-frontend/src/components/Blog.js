@@ -5,7 +5,7 @@ const Blog = ({ blog, handleLikeUpdate, handleDelete, user }) => {
   const [ showDetails, setShowDetails ] = useState(false)
 
   const detailedView = (
-    <div>
+    <div className={'detailedView'}>
       <ul>
         <li>URL: {blog.url}</li>
         <li>Likes: {blog.likes} <button onClick={() => handleLikeUpdate(blog)}>like</button></li>
@@ -18,7 +18,7 @@ const Blog = ({ blog, handleLikeUpdate, handleDelete, user }) => {
       <p>{blog.title} by {blog.author}</p>
       <button onClick={() => handleDelete(blog)}>delete</button>
       { showDetails ? detailedView : null}
-      <button onClick={() => setShowDetails(!showDetails)}> { showDetails ? 'hide' : 'view' } </button>
+      <button className={'showDetails'} onClick={() => setShowDetails(!showDetails)}> { showDetails ? 'hide' : 'view' } </button>
       
     </div>
   )
