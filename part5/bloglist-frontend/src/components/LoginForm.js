@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
+import PropTypes from 'prop-types'
 
 const LoginForm = ({ onLogin }) => {
 
@@ -33,6 +34,13 @@ const LoginForm = ({ onLogin }) => {
           </form>
       </div>
     )
+}
+
+LoginForm.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired
 }
 
 export default LoginForm
