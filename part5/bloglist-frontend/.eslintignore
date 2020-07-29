@@ -1,6 +1,2 @@
-.eslintrc.js
-/tests
-list_helper.js
-dummy.test.js
-/bloglist-frontend
-/src
+build
+node_modules
