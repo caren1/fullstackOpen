@@ -10,75 +10,99 @@ const blog = {
     likes: 1
 }
 
-describe('Basic component render with 3 methods', () => {
+// describe('Basic component render with 3 methods', () => {
 
 
-test('renders the content of blog - method 1', () => {
+// test('renders the content of blog - method 1', () => {
     
     
-    const component = render(
-        <Blog blog={blog}/>
-    )
+//     const component = render(
+//         <Blog blog={blog}/>
+//     )
     
-    expect(component.container).toHaveTextContent(
-        'Blog especially for testing by Wojciech'
-    )
-})
+//     expect(component.container).toHaveTextContent(
+//         'Blog especially for testing by Wojciech'
+//     )
+// })
 
-test('renders the content of blog - method 2', () => {
+// test('renders the content of blog - method 2', () => {
 
-    const component = render(
-        <Blog blog={blog}/>
-    )
+//     const component = render(
+//         <Blog blog={blog}/>
+//     )
 
-    const element = component.getByText(
-        'Blog especially for testing by Wojciech'
-    )
-    expect(element).toBeDefined()
-})
+//     const element = component.getByText(
+//         'Blog especially for testing by Wojciech'
+//     )
+//     expect(element).toBeDefined()
+// })
 
-test('renders the content of blog - method 3', () => {
+// test('renders the content of blog - method 3', () => {
 
-    const component = render(
-        <Blog blog={blog}/>
-    )
+//     const component = render(
+//         <Blog blog={blog}/>
+//     )
 
-    const div = component.container.querySelector('.blogStyle')
-    expect(div).toHaveTextContent(
-        'Blog especially for testing by Wojciech'
-    )
-})
-})
+//     const div = component.container.querySelector('.blogStyle')
+//     expect(div).toHaveTextContent(
+//         'Blog especially for testing by Wojciech'
+//     )
+// })
+// })
 
-describe('Will the details be shown?', () => {
-    let component
+// describe('Will the details be shown?', () => {
+//     let component
 
-    beforeEach(() => {
-        component = render(
-            <Blog blog={blog}/>
+//     beforeEach(() => {
+//         component = render(
+//             <Blog blog={blog}/>
+//         )
+//     })
+
+//     test('render the blog component with default view at start', () => {
+//         const div = component.container.querySelector('.showDetails')
+//         expect(div).toHaveTextContent('view')
+//     })
+
+//     test('render the blog component with details not be defined', () => {
+//         const div = component.container.querySelector('.detailedView')
+//         expect(div).toBeNull()
+//     })
+
+//     test('after clicking a button, details are displayed', () => {
+
+//         const button = component.getByText('view')
+//         fireEvent.click(button)
+
+//         const div = component.container.querySelector('.detailedView')
+//         expect(div).toBeDefined()
+//     })
+// })
+
+describe('calling like event handler twice', () => {
+
+    test('hitting that like button twice', () => {
+
+        const mockHandler = jest.fn()
+
+        const component = render(
+            <Blog blog={blog} handleLikeUpdate={mockHandler}/>
         )
-    })
-
-    test('render the blog component with default view at start', () => {
-        const div = component.container.querySelector('.showDetails')
-        expect(div).toHaveTextContent('view')
-    })
-
-    test('render the blog component with details not be defined', () => {
-        const div = component.container.querySelector('.detailedView')
-        expect(div).toBeNull()
-    })
-
-    test('after clicking a button, details are displayed', () => {
 
         const button = component.getByText('view')
         fireEvent.click(button)
 
         const div = component.container.querySelector('.detailedView')
         expect(div).toBeDefined()
+
+        const likeButton = div.querySelector('.likeBtn')
+        fireEvent.click(likeButton)
+        fireEvent.click(likeButton)
+
+        expect(mockHandler.mock.calls).toHaveLength(2)
+        
     })
 })
-
 
 
 
