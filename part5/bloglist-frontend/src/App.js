@@ -109,7 +109,7 @@ const handleMessage = (message, type) => {
           Greetings, {user.name}.<br/>
           Anything to add today?
         </p>
-        <button type="submit" onClick={handleLogout}>Logout</button>
+        <button id='logout' type="submit" onClick={handleLogout}>Logout</button>
         <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm createBlog={handleNewBlog}/></Togglable>
         <hr />
         <h2>Current blogs:</h2>
