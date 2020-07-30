@@ -8,7 +8,14 @@ describe('Blog app', function() {
           username: 'wojt',
           password: 'wojt'
       }
+
+      const newTestUser2 = {
+          name: 'wojtek',
+          username: 'wojtek',
+          password: 'wojtek'
+      }
       cy.request('POST', 'http://localhost:3001/api/users', newTestUser)
+      cy.request('POST', 'http://localhost:3001/api/users', newTestUser2)
       cy.visit('http://localhost:3000')
     })
   
@@ -64,8 +71,16 @@ describe('Blog app', function() {
         it('Like can be clicked', function() {
             cy.get('.showDetails').click()
             cy.get('.likeBtn').click()
+            cy.contains('like').click()
+            cy.contains('Likes: 1')
             cy.get('.success').should('have.css', 'color', 'rgb(0, 128, 0)')
-
         })
+
+        it('blog can be deleted by the person who created it', function() {
+            cy.contains('delete').click()
+            cy.contains('new test blog by wojt').should('not.exist')
+        })
+
+        
     })
   })
