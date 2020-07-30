@@ -44,15 +44,28 @@ describe('Blog app', function() {
             cy.get('#username').type('wojt')
             cy.get('#password').type('wojt')
             cy.contains('login').click()
-        })
 
-        it('A blog can be created', function() {
             cy.contains('create blog').click()
             cy.get('#title').type('new test blog')
             cy.get('#author').type('wojt')
             cy.get('#url').type('testblog.pl')
             cy.get('#create').click()
+        })
+
+        it('A blog can be created', function() {
+            // cy.contains('create blog').click()
+            // cy.get('#title').type('new test blog')
+            // cy.get('#author').type('wojt')
+            // cy.get('#url').type('testblog.pl')
+            // cy.get('#create').click()
             cy.contains('new test blog by wojt')
+        })
+
+        it('Like can be clicked', function() {
+            cy.get('.showDetails').click()
+            cy.get('.likeBtn').click()
+            cy.get('.success').should('have.css', 'color', 'rgb(0, 128, 0)')
+
         })
     })
   })
