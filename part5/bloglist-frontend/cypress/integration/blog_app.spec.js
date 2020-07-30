@@ -33,10 +33,26 @@ describe('Blog app', function() {
             cy.get('#password').type('wrong')
             cy.contains('login').click()
             cy.contains('Could not log in, provided invalid credentials')
+            //Optional bonus exercise: Check that the notification shown with unsuccessful login is displayed red.
             cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
         })
+    })
 
-        //Optional bonus exercise: Check that the notification shown with unsuccessful login is displayed red.
+    describe.only('When logged in', function() {
+        beforeEach(function() {
+            cy.contains('login')
+            cy.get('#username').type('wojt')
+            cy.get('#password').type('wojt')
+            cy.contains('login').click()
+        })
 
+        it('A blog can be created', function() {
+            cy.contains('create blog').click()
+            cy.get('#title').type('new test blog')
+            cy.get('#author').type('wojt')
+            cy.get('#url').type('testblog.pl')
+            cy.get('#create').click()
+            cy.contains('new test blog by wojt')
+        })
     })
   })
