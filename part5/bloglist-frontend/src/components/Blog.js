@@ -8,7 +8,7 @@ const Blog = ({ blog, handleLikeUpdate, handleDelete, user }) => {
     <div className={'detailedView'}>
       <ul>
         <li>URL: {blog.url}</li>
-        <li>Likes: {blog.likes} <button className={'likeBtn'} onClick={() => handleLikeUpdate(blog)}>like</button></li>
+        <li>Likes: {blog.likes} <button id='likeBtn' onClick={() => handleLikeUpdate(blog)}>like</button></li>
       </ul>
     </div>
   )
