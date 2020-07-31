@@ -3,18 +3,10 @@ const { func } = require("prop-types")
 describe('Blog app testing', function() {
     beforeEach(function() {
       cy.request('POST', 'http://localhost:3001/api/testing/reset')
-      const newTestUser = {
-          name: 'wojt',
-          username: 'wojt',
-          password: 'wojt'
-      }
 
-      const newTestUser2 = {
-          name: 'wojtek',
-          username: 'wojtek',
-          password: 'wojtek'
-      }
+      const newTestUser = { name: 'wojt', username: 'wojt', password: 'wojt' }
       cy.request('POST', 'http://localhost:3001/api/users', newTestUser)
+      const newTestUser2 = { name: 'wojtek', username: 'wojtek', password: 'wojtek' }
       cy.request('POST', 'http://localhost:3001/api/users', newTestUser2)
 
       cy.visit('http://localhost:3000')
@@ -43,7 +35,6 @@ describe('Blog app testing', function() {
             cy.get('#password').type('wrong')
             cy.contains('login').click()
             cy.get('.error').should('contain', 'Could not log in, provided invalid credentials')
-            //Optional bonus exercise: Check that the notification shown with unsuccessful login is displayed red.
             cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
         })
     })
@@ -81,7 +72,6 @@ describe('Blog app testing', function() {
             cy.contains('delete').click()
             cy.get('.error').should('contain', 'Could not delete the given blog, test blog for likes')
             cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
-
         })      
     })
   })
