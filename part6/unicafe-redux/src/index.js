@@ -6,11 +6,12 @@ import reducer from './reducer'
 const store = createStore(reducer)
 
 const App = () => {
-  // const good = () => {
+  // const onGood = () => {
   //   store.dispatch({
   //     type: 'GOOD'
   //   })
   // }
+
 
   return (
     <div>
