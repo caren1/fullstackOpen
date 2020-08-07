@@ -10,10 +10,19 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1
   }
+  // return (
+  //   <div style={style}>
+  //     {notification}
+  //   </div>
+  // )
+
   return (
-    <div style={style}>
-      {notification}
-    </div>
+    <>
+    {notification &&
+      <div style={style}>
+        {notification}
+      </div>}
+    </>
   )
 }
 
