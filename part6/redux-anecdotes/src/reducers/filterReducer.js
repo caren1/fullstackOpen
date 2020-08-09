@@ -7,7 +7,7 @@ const filterReducer = (state = '', action) => {
     }
 }
 
-export const handleFilterChange = filter => {
+export const handleFilterChange = (filter) => {
     return {
     type: 'FILTER_CHANGE',
     data: filter 

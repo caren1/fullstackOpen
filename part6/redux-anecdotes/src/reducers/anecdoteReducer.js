@@ -42,11 +42,11 @@ const reducer = (state = [], action) => {
   }
 }
 
-export const onAdd = (content) => {
+export const onAdd = (anecdote) => {
   return {
     type: 'ADD_ANECDOTE',
     data: {
-      content,
+      content: anecdote.content,
       id: getId(),
       votes: 0
     }
