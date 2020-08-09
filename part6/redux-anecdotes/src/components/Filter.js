@@ -11,7 +11,7 @@ const handleChange = (event) => {
 
     return (
         <div>
-            Filter angdotes: <input onChange={handleChange}></input>
+            Filter anegdotes: <input onChange={handleChange}></input>
         </div>
     )
 }
