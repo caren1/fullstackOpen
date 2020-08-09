@@ -9,12 +9,13 @@ const NewAnecdote = (props) => {
     const createAnecdote = async (event) => {
         event.preventDefault()
         const content = event.target.anecdote.value
+        dispatch(onAdd(content))
+        event.target.anecdote.value = ''
         dispatch(setNotification(`created a new anecdote: ${content}`))
         setTimeout(() => {
             dispatch(removeNotification())
         }, 5000);
-        event.target.anecdote.value = ''
-        dispatch(onAdd(content))
+        
     } 
 
     return (
