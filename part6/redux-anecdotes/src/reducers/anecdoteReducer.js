@@ -22,16 +22,28 @@ const reducer = (state = [], action) => {
   }
 }
 
-export const onAdd = (anecdote) => {
-  return {
-    type: 'ADD_ANECDOTE',
-    data: {
-      content: anecdote.content,
-      id: getId(),
-      votes: 0
-    }
+// export const onAdd = (anecdote) => {
+//   return {
+//     type: 'ADD_ANECDOTE',
+//     data: {
+//       content: anecdote.content,
+//       id: getId(),
+//       votes: 0
+//     }
+//   }
+// }
+
+export const onAdd = content => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createAnecdote(content)
+    // console.log(newAnecdote);
+    dispatch({
+      type: 'ADD_ANECDOTE',
+      data: newAnecdote
+    })
   }
 }
+
 
 export const onVote = (id) => {
   return {
@@ -40,7 +52,7 @@ export const onVote = (id) => {
   }
 }
 
-export const onInit = (anecdotes) => {
+export const onInit = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
     dispatch({
