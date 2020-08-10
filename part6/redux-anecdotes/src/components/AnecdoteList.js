@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { onVote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
@@ -17,23 +17,16 @@ const Anecdote = ({ anecdote, handleVote }) => {
     )
 }
 
-const AnecdoteList = () => {
-
-    const dispatch = useDispatch()
-    const anecdotes = useSelector(state => state.anecdotes)
-    const filter = useSelector(state => state.filter)
-
-    const anecdotesToShow = anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
-    anecdotesToShow.sort((a, b) => b.votes - a.votes)
+const AnecdoteList = (props) => {
 
     const handleVote = anecdote => {
-        dispatch(onVote(anecdote))
-        dispatch(setNotification(`You voted for: ${anecdote.content}`, 5000))
+        props.onVote(anecdote)
+        props.setNotification(`You voted for: ${anecdote.content}`, 5000)
     }
 
     return (
         <ul>
-            {anecdotesToShow.map(anecdote => 
+            {props.anecdotes.map(anecdote => 
                 <Anecdote 
                 key={anecdote.id}
                 anecdote={anecdote}
@@ -44,4 +37,22 @@ const AnecdoteList = () => {
     )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+        anecdotes: state.anecdotes
+        .filter(anecdote => anecdote.content.includes(state.filter))
+        .sort((a, b) => b.votes - a.votes),
+    }
+}
+
+const mapDispatchToProps = {
+    onVote, setNotification
+}
+
+const ConnectedAnecdotes = connect(
+    mapStateToProps,
+    mapDispatchToProps
+    )(AnecdoteList)
+
+export default ConnectedAnecdotes

@@ -17,7 +17,7 @@ export const setNotification = (notification, timeout) => {
             notification
         })
     setTimeout(() => {
-        dispatch( removeNotification())
+        dispatch(removeNotification())
     }, timeout)
     }
 }
