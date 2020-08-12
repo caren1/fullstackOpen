@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Route, Switch, Link, useRouteMatch, useHistory } from 'react-router-dom'
+import { useField } from '../src/hooks/index'
 
 const Menu = () => {
   const padding = {
@@ -59,9 +60,10 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
 
   const history = useHistory()
 
@@ -69,13 +71,13 @@ const CreateNew = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
     history.push('/')
-    props.setNotification(`a new anecdotes '${content}' has been created!`)
+    props.setNotification(`a new anecdotes '${content.value}' has been created!`)
     setTimeout(() => {
       props.setNotification('')
     }, 5000);
@@ -87,15 +89,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...content} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...info} />
         </div>
         <button>create</button>
       </form>
@@ -105,7 +107,7 @@ const CreateNew = (props) => {
 
 const App = () => {
 
-  const [anecdotes, setAnecdotes] = useState([
+  const [ anecdotes, setAnecdotes ] = useState([
     {
       content: 'If it hurts, do it more often',
       author: 'Jez Humble',
@@ -122,7 +124,7 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [ notification, setNotification ] = useState('')
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
@@ -144,10 +146,8 @@ const App = () => {
   }
 
   const match = useRouteMatch(`/anecdotes/:id`)
-  console.log(match);
   const anecdote = match 
   ? anecdoteById(match.params.id)
-  // ? anecdotes.find(a => a.id == Number(match.params.id))
   : null
 
   return (
@@ -155,6 +155,7 @@ const App = () => {
       <h1>Software anecdotes</h1>
         <Menu />
         {notification}
+
         <Switch>
           <Route path="/create">
             <CreateNew addNew={addNew} setNotification={setNotification}/>
@@ -169,9 +170,9 @@ const App = () => {
             <AnecdoteList anecdotes={anecdotes} />
           </Route>
         </Switch>
-        <>
-          <Footer />
-        </>
+
+        <Footer />
+        
     </div>
   )
 }
