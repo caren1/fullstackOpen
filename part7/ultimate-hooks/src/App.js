@@ -1,10 +1,8 @@
-  
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-
 const useField = (type) => {
-  const [value, setValue] = useState('')
+  const [ value, setValue ] = useState('')
 
   const onChange = (event) => {
     setValue(event.target.value)
@@ -18,7 +16,7 @@ const useField = (type) => {
 }
 
 const useResource = (baseUrl) => {
-  const [resources, setResources] = useState([])
+  const [ resources, setResources ] = useState([])
 
   useEffect(() => {
     axios.get(baseUrl)
@@ -48,8 +46,8 @@ const App = () => {
   const name = useField('text')
   const number = useField('text')
 
-  const [notes, noteService] = useResource('http://localhost:3005/notes')
-  const [persons, personService] = useResource('http://localhost:3005/persons')
+  const [ notes, noteService ] = useResource('http://localhost:3005/notes')
+  const [ persons, personService ] = useResource('http://localhost:3005/persons')
 
   const handleNoteSubmit = (event) => {
     event.preventDefault()
@@ -60,10 +58,21 @@ const App = () => {
  
   const handlePersonSubmit = (event) => {
     event.preventDefault()
+<<<<<<< HEAD
     personService.create({
        name: name.value,
       number: number.value 
     })
+=======
+<<<<<<< HEAD
+    personService.create({
+      name: name.value,
+      number: number.value 
+    })
+=======
+    personService.create({ name: name.value, number: number.value })
+>>>>>>> parent of bb36650... checkup and lint fixes
+>>>>>>> 9e017ebddf599fb93ffe00eb6ec946648357fe9c
   }
 
   return (
