@@ -9,6 +9,14 @@ const blogReducer = (state = [], action) => {
 
         case 'ADD_NEW_BLOG':
             return [...state, action.data]
+        
+        case 'DELETE_BLOG':
+            return state.filter(blog => blog.id !== action.data.id)
+
+        case 'UPDATE_LIKE':
+            const blogToUpdate = state.find(blog => blog.id === action.data.id)
+            const patchedBlog = { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
+            return state.map(blog => blog.id === action.data.id ? patchedBlog : blog)
 
         default :
             return state
@@ -37,6 +45,40 @@ export const addBlog = (content) => {
             dispatch(createNotifiation(`Added a new blog ${newBlog.title}, by ${newBlog.author}`, 'success'))
         
         }catch (error){
+            dispatch(createNotifiation(error.message, 'error'))
+        }
+    }
+}
+
+export const deleteBlog = (blog) => {
+    return async (dispatch) => {
+        try {
+            const blogToDelete = await blogService.remove(blog)
+                dispatch({
+                    type: 'DELETE_BLOG',
+                    data: { id: blog.id }
+                })
+                dispatch(createNotifiation(`Successfully removed ${blog.title}`, 'success'))
+            
+        }catch (error) {
+            dispatch(createNotifiation(error.message, 'error'))
+        }
+    }
+}
+
+export const updateLike = (blog) => {
+    return async (dispatch) => {
+        try {
+            const patchedBlog = {...blog, likes: blog.likes + 1 }
+            const response = await blogService.update(patchedBlog)
+            if (response) {
+                dispatch({
+                    type: 'UPDATE_LIKE',
+                    data: { id : blog.id }
+                })
+                dispatch(createNotifiation(`liked ${patchedBlog.title}`, 'success'))
+            }     
+        }catch (error) {
             dispatch(createNotifiation(error.message, 'error'))
         }
     }

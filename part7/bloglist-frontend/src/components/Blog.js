@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { createNotifiation } from '../reducers/notificationReducer'
+import { updateLike } from '../reducers/blogReducer'
 
 const Blog = (props) => {
 
-  const { blog, blogService, handleDelete, setBlogs, blogs } = props
+  const { blog, handleDelete } = props
 
   const dispatch = useDispatch()
 
@@ -12,17 +12,7 @@ const Blog = (props) => {
 
   const handleLikeUpdate = async (event) => {
     event.preventDefault()
-    try {
-      const patchedBlog = {...blog, likes: blog.likes + 1 };
-      const blogToUpdate = await blogService.update(patchedBlog)
-      if(blogToUpdate){
-        setBlogs(blogs.map(blog => blog.id === blogToUpdate.id ? blogToUpdate : blog))
-        dispatch(createNotifiation(`liked ${blogToUpdate.title}`, 'success'))
-      }
-    }catch (error) {
-      console.log(error);
-      dispatch(createNotifiation(`Could not update like`, 'error'))
-    }
+    dispatch(updateLike(blog))
   }
 
   const detailedView = (
@@ -40,7 +30,6 @@ const Blog = (props) => {
       <button onClick={() => handleDelete(blog)}>delete</button>
       { showDetails ? detailedView : null}
       <button className={'showDetails'} onClick={() => setShowDetails(!showDetails)}> { showDetails ? 'hide' : 'view' } </button>
-      
     </div>
   )
 }

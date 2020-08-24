@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import blogService from './services/blogs'
 
-import { createNotifiation } from './reducers/notificationReducer'
-import { initializeBlogs } from './reducers/blogReducer'
+import { initializeBlogs, deleteBlog } from './reducers/blogReducer'
 
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
@@ -38,17 +37,10 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-    const handleDeleteBlog = async blogObject => {
-        if (window.confirm(`Do you really want to remove ${blogObject.title} by ${blogObject.author}?`)) {
-          try {
-            const blogToDelete = await blogService.remove(blogObject)
-            setBlogs(blogs.filter(blog => blog.id !== blogObject.id))
-            dispatch(createNotifiation(`Successfully removed ${blogObject.title}`, 'success'))
-          
-          }catch (error) {
-            dispatch(createNotifiation(`Could not delete the given blog, ${blogObject.title}`, 'error'))
-          }
-        }
+    const handleDeleteBlog = async (blog) => {
+      if (window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}?`)) {
+        dispatch(deleteBlog(blog))
+      }
     }
 
   return (
@@ -71,9 +63,8 @@ const App = () => {
         <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm /></Togglable>
         <hr />
         <h2>Current blogs:</h2>
-        
         {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} blogService={blogService} handleDelete={handleDeleteBlog}  blogs={blogs}/>)}
+        <Blog key={blog.id} blog={blog} handleDelete={handleDeleteBlog} />)}
      </div>}
     </>
   )
