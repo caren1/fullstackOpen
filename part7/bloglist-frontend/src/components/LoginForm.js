@@ -3,10 +3,9 @@ import { useDispatch } from 'react-redux'
 
 import loginService from '../services/login'
 import { createNotifiation } from '../reducers/notificationReducer'
+import { onLogin } from '../reducers/userReducer'
 
-const LoginForm = (props) => {
-
-  const { blogService, setUser } = props
+const LoginForm = () => {
 
   const dispatch = useDispatch()
 
@@ -15,20 +14,9 @@ const LoginForm = (props) => {
 
       const handleLogin = async (event) => {
         event.preventDefault()
-        console.log('logging in with following credentials:', username, password);
-        try{
-          const user = await loginService.login({username, password})
-          if (user) {
-            window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-            blogService.setToken(user.token)
-            setUser(user)
-            dispatch(createNotifiation(`Successfully logged in the user ${user.username}`, 'success'))
-            setUsername('')
-            setPassword('')
-          }          
-        }catch (error) {
-          dispatch(createNotifiation(`Could not log in, provided invalid credentials`, 'error'))
-        }
+        dispatch(onLogin({ username, password }))
+        setUsername('')
+        setPassword('')
       }
 
     return (
