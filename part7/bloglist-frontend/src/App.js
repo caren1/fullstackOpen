@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react' 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import blogService from './services/blogs'
 
 import { createNotifiation } from './reducers/notificationReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
@@ -13,8 +14,12 @@ import Notification from './components/Notification'
 
 const App = () => {
   const dispatch = useDispatch()
-  
-  const [ blogs, setBlogs ] = useState([])
+
+  useEffect(() => {
+      dispatch(initializeBlogs())
+  }, [dispatch])
+
+  const blogs = useSelector(state => state.blogs)
   const [ user, setUser ] = useState(null)
 
   useEffect(() => {
@@ -24,15 +29,6 @@ const App = () => {
       blogService.setToken(user.token)
       setUser(user)
     }
-  }, [])
-
-  useEffect(() => {
-    async function fetchBlogs() {
-      const response = await blogService.getAll()
-      const sortedBlogs = response.sort((a, b) => b.likes - a.likes)
-      setBlogs(sortedBlogs)
-    }
-    fetchBlogs()
   }, [])
 
   const handleLogout = () => {
@@ -72,11 +68,12 @@ const App = () => {
           Anything to add today?
         </p>
         <button id='logout' type="submit" onClick={handleLogout}>Logout</button>
-        <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm blogService={blogService} blogs={blogs} setBlogs={setBlogs}/></Togglable>
+        <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm /></Togglable>
         <hr />
         <h2>Current blogs:</h2>
+        
         {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} blogService={blogService} handleDelete={handleDeleteBlog} setBlogs={setBlogs} blogs={blogs}/>)}
+        <Blog key={blog.id} blog={blog} blogService={blogService} handleDelete={handleDeleteBlog}  blogs={blogs}/>)}
      </div>}
     </>
   )
