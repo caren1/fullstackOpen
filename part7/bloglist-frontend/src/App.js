@@ -1,20 +1,27 @@
 import React, { useEffect, useRef } from 'react' 
 import { useDispatch, useSelector } from 'react-redux'
+import { Switch, Route } from 'react-router-dom'
 
 import { initializeBlogs, deleteBlog } from './reducers/blogReducer'
-import { onLogin, onLogout, onAlreadyLogged } from './reducers/userReducer'
+import { onLogout, onAlreadyLogged } from './reducers/userReducer'
+import { initializeUsers } from './reducers/usersReducer'
 
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
+import UserList from './components/UserList'
 
 const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-      dispatch(initializeBlogs())
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(initializeUsers())
   }, [dispatch])
 
   const blogs = useSelector(state => state.blogs)
@@ -28,7 +35,7 @@ const App = () => {
       dispatch(onAlreadyLogged(user))
     }
   }, [dispatch])
-
+ 
   const handleLogout = () => {
     dispatch(onLogout())
   }
@@ -49,18 +56,26 @@ const App = () => {
       {!user.token && <LoginForm />}
 
       {user.token && 
-       <div>
+      <div>
         <p>
           Greetings, {user.name}.<br/>
           Anything to add today?
+          <button id='logout' type="submit" onClick={handleLogout}>Logout</button>
         </p>
-        <button id='logout' type="submit" onClick={handleLogout}>Logout</button>
-        <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm /></Togglable>
-        <hr />
-        <h2>Current blogs:</h2>
-        {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleDelete={handleDeleteBlog} />)}
-     </div>}
+        <Switch>
+          <Route path="/users">
+            <UserList />
+          </Route>
+          <Route path="/">
+            <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm /></Togglable>
+            <hr />
+            <h2>Current blogs:</h2>
+            {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} handleDelete={handleDeleteBlog} />)}
+          </Route>
+        </Switch>
+      </div>
+      }
     </>
   )
 }
