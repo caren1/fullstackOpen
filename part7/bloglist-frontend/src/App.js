@@ -8,11 +8,12 @@ import { initializeUsers } from './reducers/usersReducer'
 
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
-import UserList from './components/UserList'
 import User from './components/User'
+import UserList from './components/UserList'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -49,8 +50,11 @@ const App = () => {
       }
     }
 
-    const match = useRouteMatch(`/users/:id`)
-    const matchedUser = match ? users.find(user => user.id === match.params.id) : null
+    const userMatch = useRouteMatch(`/users/:id`)
+    const matchedUser = userMatch ? users.find(user => user.id === userMatch.params.id) : null
+
+    const blogMatch = useRouteMatch(`/blogs/:id`)
+    const matchedBlog = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
 
   return (
     <>
@@ -67,6 +71,9 @@ const App = () => {
           <button id='logout' type="submit" onClick={handleLogout}>Logout</button>
         </p>
         <Switch>
+          <Route path="/blogs/:id">
+            <Blog blog={matchedBlog}/>
+          </Route>
           <Route path="/users/:id">
             <User user={matchedUser}/>
           </Route>
@@ -77,8 +84,7 @@ const App = () => {
             <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm /></Togglable>
             <hr />
             <h2>Current blogs:</h2>
-            {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} handleDelete={handleDeleteBlog} />)}
+            <BlogList blogs={blogs} />
           </Route>
         </Switch>
       </div>
