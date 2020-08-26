@@ -11,13 +11,19 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
-import Notification from './components/Notification'
 import Navigation from './components/Navigation'
+import Notification from './components/Notification'
 import User from './components/User'
 import UserList from './components/UserList'
 
 const App = () => {
   const dispatch = useDispatch()
+  
+  const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
+  
+  const blogFormRef = useRef()
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -27,10 +33,6 @@ const App = () => {
     dispatch(initializeUsers())
   }, [dispatch])
 
-  const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.user)
-  const users = useSelector(state => state.users)
-
   useEffect(() => {
     const userJSON = window.localStorage.getItem('loggedBlogUser')
     if (userJSON) {
@@ -39,15 +41,11 @@ const App = () => {
     }
   }, [dispatch])
  
- 
-
-  const blogFormRef = useRef()
-
-    const handleDeleteBlog = async (blog) => {
-      if (window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}?`)) {
-        dispatch(deleteBlog(blog))
-      }
-    }
+    // const handleDeleteBlog = async (blog) => {
+    //   if (window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}?`)) {
+    //     dispatch(deleteBlog(blog))
+    //   }
+    // }
 
     const userMatch = useRouteMatch(`/users/:id`)
     const matchedUser = userMatch ? users.find(user => user.id === userMatch.params.id) : null
@@ -65,7 +63,6 @@ const App = () => {
 
       {user.token && 
       <div>
-       
         <Switch>
           <Route path="/blogs/:id">
             <Blog blog={matchedBlog}/>
@@ -83,8 +80,7 @@ const App = () => {
             <BlogList blogs={blogs} />
           </Route>
         </Switch>
-      </div>
-      }
+      </div>}
     </>
   )
 }

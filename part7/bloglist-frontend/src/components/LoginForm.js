@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import loginService from '../services/login'
-import { createNotifiation } from '../reducers/notificationReducer'
 import { onLogin } from '../reducers/userReducer'
 
 const LoginForm = () => {

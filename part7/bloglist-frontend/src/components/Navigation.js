@@ -11,7 +11,6 @@ const Navigation = ({ user }) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
-        
       }
 
     return (
