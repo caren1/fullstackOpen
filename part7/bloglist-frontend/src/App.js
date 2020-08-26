@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react' 
 import { useDispatch, useSelector } from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 import { initializeBlogs, deleteBlog } from './reducers/blogReducer'
 import { onLogout, onAlreadyLogged } from './reducers/userReducer'
@@ -12,6 +12,7 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
 import UserList from './components/UserList'
+import User from './components/User'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -26,12 +27,12 @@ const App = () => {
 
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
 
   useEffect(() => {
     const userJSON = window.localStorage.getItem('loggedBlogUser')
     if (userJSON) {
       const user = JSON.parse(userJSON)
-      console.log(user);
       dispatch(onAlreadyLogged(user))
     }
   }, [dispatch])
@@ -48,6 +49,9 @@ const App = () => {
       }
     }
 
+    const match = useRouteMatch(`/users/:id`)
+    const matchedUser = match ? users.find(user => user.id === match.params.id) : null
+
   return (
     <>
       <h1>Blogs Application</h1>
@@ -63,6 +67,9 @@ const App = () => {
           <button id='logout' type="submit" onClick={handleLogout}>Logout</button>
         </p>
         <Switch>
+          <Route path="/users/:id">
+            <User user={matchedUser}/>
+          </Route>
           <Route path="/users">
             <UserList />
           </Route>
