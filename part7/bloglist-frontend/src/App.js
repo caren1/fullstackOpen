@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 import { initializeBlogs, deleteBlog } from './reducers/blogReducer'
-import { onLogout, onAlreadyLogged } from './reducers/userReducer'
+import { onAlreadyLogged } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
 
 import Blog from './components/Blog'
@@ -12,6 +12,7 @@ import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
+import Navigation from './components/Navigation'
 import User from './components/User'
 import UserList from './components/UserList'
 
@@ -38,9 +39,7 @@ const App = () => {
     }
   }, [dispatch])
  
-  const handleLogout = () => {
-    dispatch(onLogout())
-  }
+ 
 
   const blogFormRef = useRef()
 
@@ -58,6 +57,7 @@ const App = () => {
 
   return (
     <>
+      <Navigation user={user}/>
       <h1>Blogs Application</h1>
       <Notification />
       
@@ -65,11 +65,7 @@ const App = () => {
 
       {user.token && 
       <div>
-        <p>
-          Greetings, {user.name}.<br/>
-          Anything to add today?
-          <button id='logout' type="submit" onClick={handleLogout}>Logout</button>
-        </p>
+       
         <Switch>
           <Route path="/blogs/:id">
             <Blog blog={matchedBlog}/>
@@ -80,7 +76,7 @@ const App = () => {
           <Route path="/users">
             <UserList />
           </Route>
-          <Route path="/">
+          <Route path="/blogs">
             <Togglable buttonLabel="create blog" ref={blogFormRef}><BlogForm /></Togglable>
             <hr />
             <h2>Current blogs:</h2>

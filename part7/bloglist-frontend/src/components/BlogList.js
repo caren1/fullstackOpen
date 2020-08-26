@@ -7,12 +7,11 @@ const BlogList = ({ blogs }) => {
         <div>
             <ul>
             {blogs.map(blog =>
-                <li style={{border: 1+'px'+' solid black', listStyle: 'none'}}><Link to={`/blogs/${blog.id}`}>
+                <li key={blog.id} style={{border: 1+'px'+' solid black', listStyle: 'none'}}><Link to={`/blogs/${blog.id}`}>
                     {blog.title}
                 </Link>
                 </li>)}
             </ul>
-            
         </div>
     )
 }
