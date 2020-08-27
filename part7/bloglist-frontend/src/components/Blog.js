@@ -22,6 +22,13 @@ const Blog = ({ blog }) => {
       <a href={blog.url}>More details here!</a>
       <p>Likes: {blog.likes} <button id='likeBtn' onClick={handleLikeUpdate}>like!</button></p>
       <p>{blog.title} by {blog.author}</p>
+      <hr />
+      <h2>Comments :</h2>
+      <ul>
+        {blog.comments.map(comment => 
+          <li style={{marginLeft: 1+'em', color: 'green'}} key={comment}>{comment}</li>
+        )}
+      </ul>
     </div>
   )
 }

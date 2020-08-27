@@ -33,7 +33,8 @@ blogRouter.post('/', async (request, response) => {
     author: body.author,
     url: body.url,
     likes: body.likes,
-    user: user._id
+    user: user._id,
+    comments: [],
   })
 
   const savedBlog = await blog.save()
@@ -69,11 +70,30 @@ blogRouter.put('/:id', async (request, response) => {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes === undefined ? 0 : body.likes,
+    comments: body.comments
   }
 
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
   return response.json(updatedBlog.toJSON())
+})
+
+blogRouter.post('/:id/comments', async (request, response) => {
+  const body = request.body
+
+  const blog = await Blog.findById(request.params.id)
+  if (!blog) {
+    return response.status(400).json({ error: 'Invalid blog id.' })
+  }
+
+  if(!body.comment) {
+    return response.status(400).json({ error: 'Comment must be provided.' })
+  }
+
+  blog.comments = blog.comments.concat(body.comment)
+  await blog.save()
+  return response.status(201).json(blog)
+
 })
 
 module.exports = blogRouter
