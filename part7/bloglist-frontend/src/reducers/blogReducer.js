@@ -4,22 +4,33 @@ import { createNotifiation } from './notificationReducer'
 const blogReducer = (state = [], action) => {
     
     switch (action.type) {
-        case 'INIT_BLOGS':
+        case 'INIT_BLOGS': {
             return action.data
+        }
 
-        case 'ADD_NEW_BLOG':
+        case 'ADD_NEW_BLOG': {
             return [...state, action.data]
+        }
         
-        case 'DELETE_BLOG':
+        case 'DELETE_BLOG':{
             return state.filter(blog => blog.id !== action.data.id)
+        }
 
-        case 'UPDATE_LIKE':
+        case 'UPDATE_LIKE': { 
             const blogToUpdate = state.find(blog => blog.id === action.data.id)
             const patchedBlog = { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
             return state.map(blog => blog.id === action.data.id ? patchedBlog : blog)
+        }
 
-        default :
+        case 'ADD_COMMENT': {
+            const blogToUpdate = state.find(blog => blog.id === action.data.id)
+            const patchedBlog = { ...blogToUpdate, comments: blogToUpdate.comments.concat(action.data.comment)}
+            return state.map(blog => blog.id === action.data.id ? patchedBlog : blog)
+        }
+
+        default : {
             return state
+        }
     }
 }
 
@@ -79,6 +90,23 @@ export const updateLike = (blog) => {
                 dispatch(createNotifiation(`liked ${patchedBlog.title}`, 'success'))
             }     
         }catch (error) {
+            dispatch(createNotifiation(error.message, 'error'))
+        }
+    }
+}
+
+export const addComment = (blog, comment) => {
+    return async (dispatch) => {
+        try {
+            const response = await blogService.addComment(blog, { comment })
+            if(response){
+                dispatch({
+                    type: 'ADD_COMMENT',
+                    data: { id: blog.id, comment }
+                })
+                dispatch(createNotifiation(`added comment ${comment} for ${blog.title}`, 'success'))
+            }
+        }catch(error){
             dispatch(createNotifiation(error.message, 'error'))
         }
     }

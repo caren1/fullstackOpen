@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateLike } from '../reducers/blogReducer'
+import { updateLike, addComment } from '../reducers/blogReducer'
 
 const Blog = ({ blog }) => {
+
+  const [ comment, setComment ] = useState('')
 
   const dispatch = useDispatch()
 
   const handleLikeUpdate = async (event) => {
     event.preventDefault()
     dispatch(updateLike(blog))
+  }
+
+  const handleCommentUpdate = async (event) => {
+    event.preventDefault()
+    dispatch(addComment(blog, comment))
+    setComment('')
   }
 
   if (!blog){
@@ -24,6 +32,7 @@ const Blog = ({ blog }) => {
       <p>{blog.title} by {blog.author}</p>
       <hr />
       <h2>Comments :</h2>
+      <input type="text" value={comment} onChange={({ target }) => setComment(target.value)}></input> <button onClick={handleCommentUpdate}>add comment</button>
       <ul>
         {blog.comments.map(comment => 
           <li style={{marginLeft: 1+'em', color: 'green'}} key={comment}>{comment}</li>
