@@ -40,12 +40,6 @@ const App = () => {
       dispatch(onAlreadyLogged(user))
     }
   }, [dispatch])
- 
-    // const handleDeleteBlog = async (blog) => {
-    //   if (window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}?`)) {
-    //     dispatch(deleteBlog(blog))
-    //   }
-    // }
 
     const userMatch = useRouteMatch(`/users/:id`)
     const matchedUser = userMatch ? users.find(user => user.id === userMatch.params.id) : null

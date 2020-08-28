@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateLike, addComment } from '../reducers/blogReducer'
+import { updateLike, addComment, deleteBlog } from '../reducers/blogReducer'
 
 const Blog = ({ blog }) => {
 
   const [ comment, setComment ] = useState('')
 
   const dispatch = useDispatch()
+
+     const handleDeleteBlog = async (blog) => {
+      if (window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}?`)) {
+        dispatch(deleteBlog(blog))
+      }
+    }
 
   const handleLikeUpdate = async (event) => {
     event.preventDefault()
@@ -29,6 +35,7 @@ const Blog = ({ blog }) => {
       <hr />
       <a href={blog.url}>More details here!</a>
       <p>Likes: {blog.likes} <button id='likeBtn' onClick={handleLikeUpdate}>like!</button></p>
+      <button onClick={handleDeleteBlog}>delete</button>
       <p>{blog.title} by {blog.author}</p>
       <hr />
       <h2>Comments :</h2>
