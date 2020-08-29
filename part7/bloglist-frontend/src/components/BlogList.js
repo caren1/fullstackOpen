@@ -10,13 +10,6 @@ const BlogList = ({ blogs }) => {
 
     const dispatch = useDispatch()
 
-    const handleDeleteBlog = async (event) => {
-        event.preventDefault()
-        if (window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}?`)) {
-          dispatch(deleteBlog(blog))
-        }
-      }
-
     return (
         <TableContainer >
             <Table>
@@ -36,7 +29,7 @@ const BlogList = ({ blogs }) => {
                      {blog.author}
                      </TableCell>
                      <TableCell>
-                         <Button variant="contained" color="primary" type="submit" onClick={handleDeleteBlog}>Delete</Button>
+                         <Button variant="contained" color="primary" type="submit" onClick={() => dispatch(deleteBlog(blog))}>Delete</Button>
                      </TableCell>
                     </TableRow>
                     ))}
