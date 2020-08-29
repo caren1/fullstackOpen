@@ -1,6 +1,6 @@
 const defaultNotification = {
-    type: null,
     message: null,
+    type: null,
     timeout: null
 }
 

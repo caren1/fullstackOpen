@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
-import { initializeBlogs, deleteBlog } from './reducers/blogReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 import { onAlreadyLogged } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
 
@@ -15,6 +15,9 @@ import Navigation from './components/Navigation'
 import Notification from './components/Notification'
 import User from './components/User'
 import UserList from './components/UserList'
+
+import { Container, TableContainer,TableBody, TableRow, TableCell } from '@material-ui/core'
+
 
 const App = () => {
   const dispatch = useDispatch()
@@ -48,9 +51,8 @@ const App = () => {
     const matchedBlog = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
 
   return (
-    <>
+    <Container>
       <Navigation user={user}/>
-      <h1>Blogs Application</h1>
       <Notification />
       
       {!user.token && <LoginForm />}
@@ -73,9 +75,28 @@ const App = () => {
             <h2>Current blogs:</h2>
             <BlogList blogs={blogs} />
           </Route>
+          <Route path="/">
+            <Container>
+            <h1>Blogs Application - Use the navigation to explore!</h1>
+            <p>It is an application based on React, React router, Redux and Material-Ui, that allows a logged in user to add / delete / like and write comments for the created blogs.</p>
+            <h3>Current status : </h3>
+            <TableContainer>
+              <TableBody>
+                <TableRow>
+                  <TableCell>
+                  Blogs: {blogs.length}
+                  </TableCell>
+                  <TableCell>
+                  Users: {users.length}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </TableContainer>
+            </Container>
+          </Route>
         </Switch>
       </div>}
-    </>
+    </Container>
   )
 }
 

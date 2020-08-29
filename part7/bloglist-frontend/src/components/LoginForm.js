@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { TextField, Button } from '@material-ui/core'
 
 import { onLogin } from '../reducers/userReducer'
 
@@ -17,17 +18,17 @@ const LoginForm = () => {
         setPassword('')
       }
 
+  const centerDiv = {
+    textAlign : 'center',
+  }
+
     return (
-      <div>
+      <div style={centerDiv}>
         <h1>Please fill in the log in form:</h1>
           <form onSubmit={handleLogin}>
-              Username: 
-              <input id='username' type="text" value={username} name="Username" onChange={({ target }) => setUsername(target.value)}></input>
-              <br />
-              Password: 
-              <input id='password' type="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)}></input>
-              <br />
-            <button type="submit">login</button>
+              <TextField id='username' type="text" label="username"  value={username} name="Username" onChange={({ target }) => setUsername(target.value)}></TextField>
+              <TextField id='password' type="password" label="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)}></TextField>      
+              <Button variant="contained" color="primary" type="submit">Login</Button>
           </form>
       </div>
     )
