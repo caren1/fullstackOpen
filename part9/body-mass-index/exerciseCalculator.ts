@@ -1,0 +1,58 @@
+interface Result {
+    periodLength: number,
+        trainingDays: number,
+        target: number,
+        average: number,
+        success: boolean,
+        rating: number,
+        ratingDescription: string,
+}
+
+const calculateExercises = (days: Array < number > , target: number): Result => {
+
+    let trainingDays = days.filter(day => day != 0);
+
+    let averageTrainingTime = trainingDays.reduce((total, amount, index, array) => {
+        total += amount;
+        if (index === array.length - 1) {
+            return total / array.length;
+        } else {
+            return total;
+        }
+    });
+
+    let didTarget = averageTrainingTime <= target ? false : true;
+
+    let personRating;
+    let personRatingDescription;
+
+    if (averageTrainingTime > target) {
+        personRatingDescription = 'You did a great job, keep it up!'
+        personRating = 3;
+    } else if (averageTrainingTime == target) {
+        personRatingDescription = 'Great job, but maybe more next time?'
+        personRating = 2;
+    } else if (averageTrainingTime < target) {
+        personRatingDescription = 'Move your ass and start working out seriously!'
+        personRating = 1;
+    }
+
+    return {
+        periodLength: days.length,
+        trainingDays: trainingDays.length,
+        target: target,
+        average: averageTrainingTime,
+        success: didTarget,
+        rating: personRating,
+        ratingDescription: personRatingDescription,
+    }
+}
+
+let userTrainingHours = [3, 0, 2, 4.5, 0, 3, 1];
+let userTrainingHours2 = [2, 2, 2, 2, 1, 0, 1];
+let userTrainingHours3 = [8, 0, 8, 0, 8, 0, 8];
+
+console.log(calculateExercises(userTrainingHours, 2));
+console.log(calculateExercises(userTrainingHours, 50));
+console.log(calculateExercises(userTrainingHours2, 1.6666666666666667));
+console.log(calculateExercises(userTrainingHours3, 1));
