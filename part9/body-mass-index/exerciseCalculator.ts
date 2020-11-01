@@ -13,16 +13,25 @@ interface ExerciseValues {
     days: Array < number >
 }
 
+let daysFromArgs = (args: Array <string>) : Array<number> => {
+    let daysArray: Array<number> = [];
+    for (let i = 3; i < args.length; i++) {
+        daysArray.push(Number(args[i]));
+    }
+    return daysArray;
+}
+
 const parseExerciseArguments = (args: Array < string > ): ExerciseValues => {
     if (args.length < 10) throw new Error('Not enough arguments');
-    if (args.length > 10) throw new Error('Too many arguments');
-
+    // if (args.length > 10) throw new Error('Too many arguments');
+    
     if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
         console.log(args[3]);
 
         return {
             target: Number(args[2]),
-            days: [Number(args[3]), Number(args[4]), Number(args[5]), Number(args[6]), Number(args[7]), Number(args[8]), Number(args[9])]
+            // days: [Number(args[3]), Number(args[4]), Number(args[5]), Number(args[6]), Number(args[7]), Number(args[8]), Number(args[9])]
+            days: daysFromArgs(args),
         }
     } else {
         throw new Error('Provided values were not numbers!');
