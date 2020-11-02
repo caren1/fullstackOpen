@@ -19,12 +19,14 @@ const parseArguments = (args: Array<string>) : BmiValues => {
 
 const calculateBmi = (height: number, weight: number): string => {
     let bmi =  Math.floor((weight / (height * height)) * 10000);
+    console.log(bmi);
+    
 
     if (bmi < 15) {
         return 'Very severely underweight';
     } else if (bmi > 15 && bmi <= 16 ){
         return 'Severely underweight';
-    } else if (bmi <= 16 && bmi <= 18.5) {
+    } else if (bmi >= 16 && bmi <= 18.5) {
         return 'Underweight';
     } else if (bmi >= 18.5 && bmi < 25) {
         return 'Normal (healthy weight)';
@@ -37,7 +39,8 @@ const calculateBmi = (height: number, weight: number): string => {
 
 try {
     const { value1, value2 } = parseArguments(process.argv);
-    calculateBmi(value1, value2);
+    // calculateBmi(value1, value2);
+    
     console.log(calculateBmi(value1, value2));
 } catch (e) {
     console.log('Error, something unexpected happened, message: ', e.message);
