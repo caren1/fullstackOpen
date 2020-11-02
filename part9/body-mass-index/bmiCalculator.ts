@@ -21,20 +21,22 @@ const calculateBmi = (height: number, weight: number): string => {
     let bmi =  Math.floor((weight / (height * height)) * 10000);
     console.log(bmi);
     
+    let bmiResult:string = '';
 
     if (bmi < 15) {
-        return 'Very severely underweight';
+        bmiResult = 'Very severely underweight';
     } else if (bmi > 15 && bmi <= 16 ){
-        return 'Severely underweight';
+        bmiResult = 'Severely underweight';
     } else if (bmi >= 16 && bmi <= 18.5) {
-        return 'Underweight';
+        bmiResult = 'Underweight';
     } else if (bmi >= 18.5 && bmi < 25) {
-        return 'Normal (healthy weight)';
+        bmiResult = 'Normal (healthy weight)';
     } else if (bmi >= 25) {
-        return 'Overweight';
+        bmiResult = 'Overweight';
     } else if (bmi > 35) {
-        return 'Severly Obese';
+        bmiResult = 'Severly Obese';
     }
+    return bmiResult
 }
 
 try {
@@ -45,3 +47,5 @@ try {
 } catch (e) {
     console.log('Error, something unexpected happened, message: ', e.message);
 }
+
+export { calculateBmi };
