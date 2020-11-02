@@ -13,15 +13,15 @@ interface ExerciseValues {
     days: Array < number >
 }
 
-let daysFromArgs = (args: Array <string>) : Array<number> => {
-    let daysArray: Array<number> = [];
+const daysFromArgs = (args: Array <string>) : Array<number> => {
+    const daysArray: Array<number> = [];
     for (let i = 3; i < args.length; i++) {
         if (!isNaN(Number(args[i]))){
             daysArray.push(Number(args[i]));
         }
     }
     return daysArray;
-}
+};
 
 const parseExerciseArguments = (args: Array < string > ): ExerciseValues => {
     if (args.length < 10) throw new Error('Not enough arguments');
@@ -33,17 +33,17 @@ const parseExerciseArguments = (args: Array < string > ): ExerciseValues => {
             target: Number(args[2]),
             // days: [Number(args[3]), Number(args[4]), Number(args[5]), Number(args[6]), Number(args[7]), Number(args[8]), Number(args[9])]
             days: daysFromArgs(args),
-        }
+        };
     } else {
         throw new Error('Provided values were not numbers!');
     }
-}
+};
 
 const calculateExercises = (days: Array < number > , target: number): Result => {
 
-    let trainingDays = days.filter(day => day != 0);
+    const trainingDays = days.filter(day => day != 0);
 
-    let averageTrainingTime = trainingDays.reduce((total, amount, index, array) => {
+    const averageTrainingTime = trainingDays.reduce((total, amount, index, array) => {
         total += amount;
         if (index === array.length - 1) {
             return total / array.length;
@@ -52,19 +52,19 @@ const calculateExercises = (days: Array < number > , target: number): Result => 
         }
     });
 
-    let didTarget = averageTrainingTime <= target ? false : true;
+    const didTarget = averageTrainingTime <= target ? false : true;
 
-    let personRating;
-    let personRatingDescription;
+    let personRating = 0;
+    let personRatingDescription = '';
 
     if (averageTrainingTime > target) {
-        personRatingDescription = 'You did a great job, keep it up!'
+        personRatingDescription = 'You did a great job, keep it up!';
         personRating = 3;
     } else if (averageTrainingTime == target) {
-        personRatingDescription = 'Great job, but maybe more next time?'
+        personRatingDescription = 'Great job, but maybe more next time?';
         personRating = 2;
     } else if (averageTrainingTime < target) {
-        personRatingDescription = 'Move your ass and start working out seriously!'
+        personRatingDescription = 'Move your ass and start working out seriously!';
         personRating = 1;
     }
 
@@ -76,8 +76,8 @@ const calculateExercises = (days: Array < number > , target: number): Result => 
         success: didTarget,
         rating: personRating,
         ratingDescription: personRatingDescription,
-    }
-}
+    };
+};
 
 // let userTrainingHours = [3, 0, 2, 4.5, 0, 3, 1];
 // let userTrainingHours2 = [2, 2, 2, 2, 1, 0, 1];

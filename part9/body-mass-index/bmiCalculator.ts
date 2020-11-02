@@ -10,18 +10,18 @@ const parseArguments = (args: Array<string>) : BmiValues => {
     if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))){
         return {
             value1: Number(args[2]),
-            value2: Number(args[3])
-        }
+            value2: Number(args[3]),
+        };
     } else {
         throw new Error('Provided values were not numbers!');
     }
-}
+};
 
 const calculateBmi = (height: number, weight: number): string => {
-    let bmi =  Math.floor((weight / (height * height)) * 10000);
+    const bmi =  Math.floor((weight / (height * height)) * 10000);
     console.log(bmi);
     
-    let bmiResult:string = '';
+    let bmiResult = '';
 
     if (bmi < 15) {
         bmiResult = 'Very severely underweight';
@@ -36,8 +36,8 @@ const calculateBmi = (height: number, weight: number): string => {
     } else if (bmi > 35) {
         bmiResult = 'Severly Obese';
     }
-    return bmiResult
-}
+    return bmiResult;
+};
 
 try {
     const { value1, value2 } = parseArguments(process.argv);
