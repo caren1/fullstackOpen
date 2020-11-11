@@ -9,6 +9,18 @@ router.get('/', (_req, res) => {
     // res.send(patientsService.getPatients());
 });
 
+router.get('/:id', (req, res) => {
+    try {
+        // console.log(req.params.id);
+        const foundPatient = patientsService.getPatient(req.params.id);
+        if (foundPatient) {
+            res.json(foundPatient);
+        }
+    } catch (exception) {
+        res.status(204).send(exception.message);
+    }
+});
+
 router.post('/', (req, res) => {
 
     try {

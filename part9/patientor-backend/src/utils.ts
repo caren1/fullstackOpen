@@ -8,6 +8,7 @@ const toNewPatientEntry = (object: any): NewPatientEntry => {
         ssn: parseStringField(object.ssn),
         gender: parseGender(object.gender),
         occupation: parseStringField(object.occupation),
+        entries: [],
     };
 };
 
