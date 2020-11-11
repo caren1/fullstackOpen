@@ -22,4 +22,9 @@ export interface CoursePartThree extends CoursePartWithDescription {
     exerciseSubmissionLink: string;
 }
 
-export type CoursePart = CoursePartOne | CoursePartTwo | CoursePartThree;
+export interface CoursePartFour extends CoursePartWithDescription {
+    name: "Typescript types are difficult to understand",
+    rating: number;
+}
+
+export type CoursePart = CoursePartOne | CoursePartTwo | CoursePartThree | CoursePartFour;

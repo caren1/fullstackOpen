@@ -27,6 +27,12 @@ const App: React.FC = () => {
       exerciseCount: 14,
       description: "Confusing description",
       exerciseSubmissionLink: "https://fake-exercise-submit.made-up-url.dev"
+    },
+    {
+      name: "Typescript types are difficult to understand",
+      exerciseCount: 100000,
+      description: "theeeeeeeeese types..",
+      rating: 0
     }
   ];
 

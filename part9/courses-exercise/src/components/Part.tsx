@@ -23,6 +23,13 @@ const Part: React.FC<{ part: CoursePart }> = ({ part }) => {
          Name: {part.name} :  no. of exercises: {part.exerciseCount} : {part.groupProjectCount}
         </p>
       );
+    case "Typescript types are difficult to understand":
+      return (
+        <p>
+          Name: {part.name} :  no. of exercises: {part.exerciseCount} : {part.description} <br/>
+          rating: {part.rating}
+        </p>
+      );
     default:
       return assertNever(part);
   }
