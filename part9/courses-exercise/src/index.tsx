@@ -2,65 +2,39 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 
-interface HeaderProps {
-  title: string
-}
+import Header from './components/Header';
+import Content from './components/Content';
+import Total from './components/Total';
 
-const Header: React.FC<HeaderProps> = (props) => {
-  return (
-    <>
-      <h1>{props.title}</h1>
-    </>
-  )
-}
-
-interface Courses {
-  courses: Array<{ name:string, exerciseCount: number }>
-}
-
-const Content: React.FC<Courses> = (props) => {
-  return (
-  <>
-    {props.courses.map((course) => (
-      <p key={course.name}>Name: {course.name},<br /> no. of exercises: {course.exerciseCount}</p>
-    ))}
-  </>
-  )
-}
-
-const Total: React.FC<Courses> = (props) => {
-  return (
-    <>
-    <p>Total number of exercises{" "}
-        {props.courses.reduce((carry, part) => carry + part.exerciseCount, 0)}</p>
-    </>
-  )
-}
-
-
+import { CoursePart } from './types';
 
 const App: React.FC = () => {
+
   const courseName = "Half Stack application development";
-  const courseParts = [
+  const courseParts: Array<CoursePart> = [
     {
       name: "Fundamentals",
-      exerciseCount: 10
+      exerciseCount: 10,
+      description: "This is an awesome course part"
     },
     {
       name: "Using props to pass data",
-      exerciseCount: 7
+      exerciseCount: 7,
+      groupProjectCount: 3
     },
     {
       name: "Deeper type usage",
-      exerciseCount: 14
+      exerciseCount: 14,
+      description: "Confusing description",
+      exerciseSubmissionLink: "https://fake-exercise-submit.made-up-url.dev"
     }
   ];
 
   return (
     <div>
       <Header title={courseName} />
-      <Content courses={courseParts} />
-      <Total courses={courseParts} />
+      <Content parts={courseParts} />
+      <Total parts={courseParts} />
     </div>
   );
 };
